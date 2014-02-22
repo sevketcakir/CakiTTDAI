@@ -6,7 +6,22 @@ function FindBestStationSpotForTown(town);
 function PrintFinancialStatus();
 function FindPlaceForDepot(town);
 function BuildRoute(ta,tb);
+function Save();
+function Load();
 }
+
+function CakiTTDAI::Save()
+{
+	//AILog.Info("Saving right now...");
+	local data={};
+	return data;
+	//Not yet implemented...
+}
+function Load(data)
+{
+	local LoadedData=data;
+}
+
 function CakiTTDAI::FindPlaceForDepot(town)
 {
 	//implemented in FindBestStationSpotForTown
@@ -204,6 +219,7 @@ function CakiTTDAI::BuildRoute(ta,tb)
 
 function CakiTTDAI::Start()
 {
+  AICompany.SetName("Caki'nin kampanisi ;)");
   /* Get a list of all towns on the map. */
   local townlist = AITownList();
 
@@ -248,6 +264,12 @@ function CakiTTDAI::Start()
 	while(true)
 	{
 		Sleep(500);
+		//Repay the bank loan and get rid of the loan interests
+		if(AICompany.GetBankBalance(AICompany.COMPANY_SELF)>0 && AICompany.GetLoanAmount()>0);
+			AICompany.SetMinimumLoanAmount(AICompany.GetLoanAmount() - AICompany.GetBankBalance(AICompany.COMPANY_SELF));
+		if( AICompany.GetBankBalance(AICompany.COMPANY_SELF) > AICompany.GetLoanAmount() )
+			AICompany.SetMinimumLoanAmount(0);
+		//AILog.Info("Bank: "+AICompany.GetBankBalance(AICompany.COMPANY_SELF)+" MaxLoan: "+AICompany.GetMaxLoanAmount()+" Loan: "+AICompany.GetLoanAmount());
 		this.PrintFinancialStatus();
 	}
 }
